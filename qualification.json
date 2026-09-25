@@ -1,0 +1,76 @@
+{
+  "version": 1,
+  "assumptions": [
+    "Project state contains enough buyer/product context to establish genuine product fit.",
+    "The sandbox can inspect public web pages but does not need authenticated community accounts.",
+    "The workflow only writes its declared report and does not publish externally."
+  ],
+  "effects": [
+    "Writes reports/COMMUNITY_QUESTION_RADAR.md in the project."
+  ],
+  "cases": [
+    {
+      "id": "ordinary",
+      "description": "A project with clear buyer and product context produces a small set of public, actionable conversations.",
+      "inputs": {
+        "focus": "Questions from small-business owners about getting qualified leads without increasing ad spend",
+        "opportunities": 5
+      },
+      "expect": {
+        "contains": [
+          "COMMUNITY QUESTION RADAR",
+          "First 3 actions",
+          "Rejected near-misses",
+          "limitations"
+        ]
+      },
+      "rubric": [
+        {
+          "id": "grounding",
+          "question": "Does every selected opportunity contain a public URL and evidence supporting the claimed buyer problem?"
+        },
+        {
+          "id": "fit",
+          "question": "Does each drafted reply stay within the product capabilities and avoid invented proof?"
+        },
+        {
+          "id": "actionability",
+          "question": "Can the founder open the listed conversation and know what to do next without additional research?"
+        }
+      ]
+    },
+    {
+      "id": "thin_results",
+      "description": "The search finds fewer than the requested number of strong conversations.",
+      "inputs": {
+        "focus": "A very narrow niche with few public discussions",
+        "opportunities": 5
+      },
+      "expect": {
+        "contains": [
+          "shortfall",
+          "weak matches"
+        ]
+      }
+    },
+    {
+      "id": "no_fit",
+      "description": "The project context does not support a genuine product-to-question fit.",
+      "inputs": {
+        "focus": "Only pursue conversations about a capability that is not documented in the project",
+        "opportunities": 3
+      },
+      "expect": {
+        "contains": [
+          "product fit",
+          "invent"
+        ]
+      }
+    }
+  ],
+  "cost_drivers": [
+    "Number of public pages inspected during discovery.",
+    "Number of candidate conversations evaluated.",
+    "Number of drafted replies."
+  ]
+}
