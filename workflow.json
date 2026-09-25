@@ -1,0 +1,71 @@
+{
+  "package_format": "tin-workflow-package-v1",
+  "definition": {
+    "key": "growth.community_question_radar",
+    "title": "Find buyer questions worth answering",
+    "description": "Find fresh public conversations where the company's buyer is asking a problem the product can genuinely help with, then hand the founder a small set of evidence-backed replies to post.",
+    "version": "1.0.0",
+    "executor": "codex.procedure",
+    "schedule_modes": [
+      "on_demand"
+    ],
+    "input_schema": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "focus": {
+          "type": "string",
+          "title": "Community focus",
+          "description": "Optional audience, problem, geography, or product angle to prioritize.",
+          "maxLength": 1000,
+          "default": "",
+          "x-tin-ui": {
+            "control": "textarea",
+            "order": 10
+          }
+        },
+        "opportunities": {
+          "type": "integer",
+          "title": "Opportunities to return",
+          "description": "Maximum number of strong conversations to hand to the founder.",
+          "minimum": 3,
+          "maximum": 8,
+          "default": 5,
+          "x-tin-ui": {
+            "control": "counter",
+            "order": 20
+          }
+        }
+      },
+      "required": [
+        "project_id"
+      ]
+    },
+    "procedure": {
+      "prompt_path": "PROMPT.md",
+      "skills_path": "skills",
+      "skill_files": [
+        "skills/community-question-radar/SKILL.md"
+      ],
+      "entry_skill": "community-question-radar",
+      "workspace": {
+        "kind": "project.state"
+      },
+      "sandbox": {
+        "profile": "isolated",
+        "egress": "fenced",
+        "timeout_seconds": 900
+      },
+      "output": {
+        "kind": "project.artifact",
+        "path": "reports/COMMUNITY_QUESTION_RADAR.md",
+        "media_type": "text/markdown",
+        "max_bytes": 50000
+      }
+    }
+  }
+}
